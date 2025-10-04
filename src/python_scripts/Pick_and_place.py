@@ -73,3 +73,9 @@ def main():
     Init()
     Pick()
     Place()
+
+
+# Run main and handle closing
+if __name__ == "__main__":
+    main()
+    #confirm_close()
