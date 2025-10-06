@@ -32,7 +32,7 @@ cube.setVisible(True)
 
 robot.setPoseFrame(base)
 robot.setPoseTool(tool)
-robot.setSpeed(80)
+robot.setSpeed(70)
 
 def Init():
     print("Init")
