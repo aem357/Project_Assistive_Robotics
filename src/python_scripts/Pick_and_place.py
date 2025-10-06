@@ -4,7 +4,7 @@ from math import radians, degrees, pi
 from robodk.robolink import Robolink
 from robodk.robomath import *
 
-# Define relative path to the .rdk file
+# Define relative path to .rdk file
 relative_path = "src/roboDK/Pick&Place_UR5e.rdk"
 absolute_path = os.path.abspath(relative_path)
 
