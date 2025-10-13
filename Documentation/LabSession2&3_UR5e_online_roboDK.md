@@ -160,10 +160,10 @@ During the second hour, students will adapt and generate the proper and obtimise
         j1, j2, j3, j4, j5, j6 = np.radians(Target.Joints()).tolist()[0]
         movej_Target = f"movej([{j1},{j2}, {j3}, {j4}, {j5}, {j6}],{accel_mss},{speed_ms},{time_high},{blend_r})"
         ```
-    - For moveL usually:
+    - For moveL usually (URScript uses meters and angle-vector in radians):
         ```python
-        X, Y, Z, Roll, Pitch, Yaw = Pose_2_TxyzRxyz(Target.Pose())
-        movel_Target = f"movel(p[{X/1000}, {Y/1000}, {Z/1000}, {Roll}, {Pitch}, {Yaw}], a={accel_mss}, v={speed_ms}, t={timel}, r={blend_r})"
+        X, Y, Z, u, v, w = Pose_2_UR(Target.Pose())
+        movel_Target = f"movel(p[{X/1000}, {Y/1000}, {Z/1000}, {u}, {v}, {w}], a={accel_mss}, v={speed_ms}, t={timel}, r={blend_r})"
         ````
     - `Recommendation`:
         ```python
