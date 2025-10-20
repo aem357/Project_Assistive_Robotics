@@ -57,11 +57,11 @@ def Place():
  
     print("Place")
 
-     # Aumentar de vuelta la velocidad del robot
+    # Aumentar de vuelta la velocidad del robot
     robot.setSpeed(60)
     robot.MoveL(App_place_target, True)  # Mover el robot al target 
 
-    # # Reducir la velocidad del robot
+    # Reducir la velocidad del robot
     robot.setSpeed(20)
     robot.MoveL(Place_target, True)  # Mover el robot al target
 
