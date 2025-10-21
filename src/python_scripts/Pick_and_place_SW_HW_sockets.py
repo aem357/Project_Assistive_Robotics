@@ -86,6 +86,14 @@ def Init():
     print("Init")
     robot.MoveL(Init_target, True) #Cambiarlo con IF para mover con ur5e_execution y robot_is_connected y mandar el socket
     print("Init_target REACHED")
+    if robot_is_connected and ur5e_execution:
+        print("Init REAL UR5e")
+        send_ur_script(set_tcp)
+        receive_response(1)
+        send_ur_script(movel_Init_target)
+        receive_response(timej)
+    else:
+        print("UR5e not connected. Simulation only.")
 
 def Pick():
     print("Pick") 
@@ -98,11 +106,21 @@ def Pick():
     
     cube.setParentStatic(tool)  # Pegar el cubo a la pinza
     robot.MoveL(App_pick_target, True)  # Mover el robot de vuelta al target
-    
+
     print("Pick FINISHED")
+    if robot_is_connected and ur5e_execution:
+        print("Pick REAL UR5e")
+        send_ur_script(set_tcp)
+        receive_response(1)
+        send_ur_script(movel_App_pick_target)
+        receive_response(timel)
+        send_ur_script(movel_Pick_target)
+        receive_response(timel)
+        send_ur_script(movel_App_pick_target)
+        receive_response(timel)
 
 def Place():
- 
+
     print("Place")
 
     # Aumentar de vuelta la velocidad del robot
