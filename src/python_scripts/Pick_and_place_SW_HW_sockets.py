@@ -110,7 +110,7 @@ def Pick():
     print("Pick FINISHED")
     if robot_is_connected and ur5e_execution:
         print("Pick REAL UR5e")
-        send_ur_script(set_tcp)
+        send_ur_script(set_tcp) 
         receive_response(1)
         send_ur_script(movel_App_pick_target)
         receive_response(timel)
@@ -123,8 +123,6 @@ def Place():
 
     print("Place")
 
-    # Aumentar de vuelta la velocidad del robot
-    robot.setSpeed(60)
     robot.MoveL(App_place_target, True)  # Mover el robot al target 
 
     # Reducir la velocidad del robot
@@ -138,6 +136,17 @@ def Place():
     robot.MoveL(App_place_target, True)
 
     print("Place FINISHED")
+    if robot_is_connected and ur5e_execution:
+        print("Place REAL UR5e")
+        #send_ur_script(set_tcp)
+        receive_response(1)
+        send_ur_script(movel_App_place_target)
+        receive_response(timel)
+        send_ur_script(movel_Place_target)
+        receive_response(timel)
+        send_ur_script(movel_App_place_target)
+        receive_response(timel)
+
 
 # Main function
 def main():
