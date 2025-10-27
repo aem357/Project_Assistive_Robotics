@@ -12,7 +12,9 @@ absolute_path = os.path.abspath(relative_path)
 
 # Start RoboDK with the project file
 RDK = Robolink()
+time.sleep(3)
 RDK.AddFile(absolute_path)
+time.sleep(3)
 
 # Robot setup
 robot = RDK.Item("UR5e")
@@ -84,8 +86,6 @@ def receive_response(t):
 
 def Init():
     print("Init")
-    robot.MoveL(Init_target, True) #Cambiarlo con IF para mover con ur5e_execution y robot_is_connected y mandar el socket
-    print("Init_target REACHED")
     if robot_is_connected and ur5e_execution:
         print("Init REAL UR5e")
         send_ur_script(set_tcp)
@@ -94,20 +94,12 @@ def Init():
         receive_response(timej)
     else:
         print("UR5e not connected. Simulation only.")
+        robot.MoveL(Init_target, True) #Cambiarlo con IF para mover con ur5e_execution y robot_is_connected y mandar el socket
+        print("Init_target REACHED")
 
 def Pick():
     print("Pick") 
 
-    # Mover el robot para acercarse al objetivo
-    robot.MoveL(App_pick_target, True)  
-
-    robot.setSpeed(20)  # Reducir la velocidad del robot
-    robot.MoveL(Pick_target, True)  # Mover el robot al objetivo de recogida
-    
-    cube.setParentStatic(tool)  # Pegar el cubo a la pinza
-    robot.MoveL(App_pick_target, True)  # Mover el robot de vuelta al target
-
-    print("Pick FINISHED")
     if robot_is_connected and ur5e_execution:
         print("Pick REAL UR5e")
         send_ur_script(set_tcp) 
@@ -118,24 +110,23 @@ def Pick():
         receive_response(timel)
         send_ur_script(movel_App_pick_target)
         receive_response(timel)
+    else:
+        # Mover el robot para acercarse al objetivo
+        robot.MoveL(App_pick_target, True)  
+
+        robot.setSpeed(20)  # Reducir la velocidad del robot
+        robot.MoveL(Pick_target, True)  # Mover el robot al objetivo de recogida
+        
+        cube.setParentStatic(tool)  # Pegar el cubo a la pinza
+        robot.MoveL(App_pick_target, True)  # Mover el robot de vuelta al target
+
+        print("Pick FINISHED")
 
 def Place():
 
     print("Place")
 
-    robot.MoveL(App_place_target, True)  # Mover el robot al target 
-
-    # Reducir la velocidad del robot
-    robot.setSpeed(20)
-    robot.MoveL(Place_target, True)  # Mover el robot al target
-
-    # Soltar el cubo en la mesa
-    cube.setParentStatic(table)
-
-    # Mover el robot de regreso al target
-    robot.MoveL(App_place_target, True)
-
-    print("Place FINISHED")
+    
     if robot_is_connected and ur5e_execution:
         print("Place REAL UR5e")
         #send_ur_script(set_tcp)
@@ -146,12 +137,26 @@ def Place():
         receive_response(timel)
         send_ur_script(movel_App_place_target)
         receive_response(timel)
+    else:
+        robot.MoveL(App_place_target, True)  # Mover el robot al target 
+
+        # Reducir la velocidad del robot
+        robot.setSpeed(20)
+        robot.MoveL(Place_target, True)  # Mover el robot al target
+
+        # Soltar el cubo en la mesa
+        cube.setParentStatic(table)
+
+        # Mover el robot de regreso al target
+        robot.MoveL(App_place_target, True)
+
+        print("Place FINISHED")
 
 
 # Main function
 def main():
     global robot_is_connected, ur5e_execution
-    ur5e_execution = True # Flag for UR5e execution. Only one group at True at a time.
+    ur5e_execution = False # Flag for UR5e execution. Only one group at True at a time.
     robot_is_connected = check_robot_port(ROBOT_IP, ROBOT_PORT)
     Init()
     Pick()
