@@ -44,9 +44,9 @@ ROBOT_PORT = 30002
 accel_mss = 1.2
 speed_ms = 0.75
 time_high = 5
-blend_r = 0.0
-timej = 6
-timel = 4
+blend_r = 0.02 #in meters
+timej = 6 #in seconds
+timel = 4 #in seconds
 
 # URScript commands
 set_tcp = "set_tcp(p[0.000000, 0.000000, 0.1470000, 0.000000, 0.000000, 0.000000])"
@@ -161,6 +161,7 @@ def main():
     Init()
     Pick()
     Place()
+    Init()
     if robot_is_connected:
         robot_socket.close()
 
